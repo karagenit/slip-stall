@@ -27,7 +27,45 @@ legend(x = "bottomright",
        bty = "n",
        cex = 0.8)
 
-dev.print(png, "plot.png", width = 1000, height = 1000)
+dev.print(png, "torque.png", width = 1000, height = 1000)
+
+x11()
+
+plot(peak$Time,
+     peak$Current,
+     col="red",
+     type="l",
+     ylim=c(0,70),
+     xlim=c(0,300),
+     ylab="Current (A)",
+     xlab="Time(s)",
+     main="Current Draw, Stall vs Slip")
+points(stall$Time,
+       stall$Amps,
+       col="blue",
+       type="l")
+
+dev.print(png, "current.png", width = 1000, height = 1000)
+
+x11()
+
+peak$TorquePerAmp = 1000 * peak$Torque / peak$Current
+stall$TorquePerAmp = 1000 * stall$Torque / stall$Amps
+
+plot(peak$Time,
+     peak$TorquePerAmp,
+     col="red",
+     type="l",
+     ylim=c(0,30),
+     ylab="Torque per Amp (mNm/A)",
+     xlab="Time (s)",
+     main="Torque per Amp, Slip vs Stall")
+points(stall$Time,
+       stall$TorquePerAmp,
+       col="blue",
+       type="l")
+
+dev.print(png, "torque-per-amp.png", width = 1000, height = 1000)
 
 Sys.sleep(1000)
 
