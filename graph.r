@@ -1,7 +1,16 @@
 #!/usr/bin/env Rscript
 
-peak <- read.csv("peak-power.csv", header = TRUE)
-stall <- read.csv("stall-6v.csv", header = TRUE)
+args = commandArgs(trailingOnly = TRUE)
+
+if (length(args) != 1) {
+    stop("Provide Motor Type (cim, 775) as Command Line Argument.")
+}
+
+peakFile = paste(args[1], "-peak-power.csv", sep="")
+stallFile = paste(args[1], "-stall-6v.csv", sep="")
+
+peak <- read.csv(peakFile, header = TRUE)
+stall <- read.csv(stallFile, header = TRUE)
 
 x11()
 
