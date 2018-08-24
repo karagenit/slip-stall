@@ -6,6 +6,14 @@ if (length(args) != 1) {
     stop("Provide Motor Type (cim, 775) as Command Line Argument.")
 }
 
+if (args[1] == "cim") {
+    rpm = 2670
+} else if (args[1] == "775") {
+    rpm = 9370
+} else {
+    rpm = 1
+}
+
 peakFile = paste(args[1], "-peak-power.csv", sep="")
 stallFile = paste(args[1], "-stall-6v.csv", sep="")
 
@@ -14,7 +22,7 @@ stall <- read.csv(stallFile, header = TRUE)
 
 x11()
 
-peak$Torque = (9.5488 * peak$Power) / 2670
+peak$Torque = (9.5488 * peak$Power) / rpm
 
 plot(peak$Time,
      peak$Torque,
@@ -24,7 +32,7 @@ plot(peak$Time,
      xlim=c(0, 300),
      xlab="Time (s)",
      ylab="Torque (Nm)",
-     main="Torque Output - Stalling vs Slipping")
+     main="Torque Output - Slipping vs Stalling")
 points(stall$Time,
        stall$Torque,
        col="blue",
@@ -48,7 +56,7 @@ plot(peak$Time,
      xlim=c(0,300),
      ylab="Current (A)",
      xlab="Time(s)",
-     main="Current Draw, Stall vs Slip")
+     main="Current Draw, Slipping vs Stalling")
 points(stall$Time,
        stall$Amps,
        col="blue",
@@ -68,7 +76,7 @@ plot(peak$Time,
      ylim=c(0,30),
      ylab="Torque per Amp (mNm/A)",
      xlab="Time (s)",
-     main="Torque per Amp, Slip vs Stall")
+     main="Torque per Amp, Slipping vs Stalling")
 points(stall$Time,
        stall$TorquePerAmp,
        col="blue",
